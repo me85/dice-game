@@ -6,6 +6,11 @@ class RollDice extends React.Component {
   constructor(props) {
     super(props);
     this.handleRollTheDice = this.handleRollTheDice.bind(this);
+
+    this.state = {
+      dice1: null,
+      dice2: null,
+    };
   }
 
   // sumDice(dice1, dice2) {
@@ -24,8 +29,14 @@ class RollDice extends React.Component {
     const dice1 = rollDice();
     const dice2 = rollDice();
 
+    // let playerOneCurrentScore = dice1 + dice2;
+    // this.props.onDiceChange1(playerOneCurrentScore);
+
     this.props.onDiceChange1(dice1);
     this.props.onDiceChange2(dice2);
+
+    console.log("inside handle roll the dice");
+    this.props.updateCurrentScore(dice1 + dice2);
   }
 
   render() {

@@ -1,10 +1,10 @@
 import React from "react";
+import Player from "./components/Player";
+import RollDice from "./components/RollDice";
+import Hold from "./components/Hold";
+import NewGame from "./components/NewGame";
+import PointsToWin from "./components/PointsToWin";
 import "./App.css";
-import Player from "./Player";
-import RollDice from "./RollDice";
-import Hold from "./Hold";
-import NewGame from "./NewGame";
-import PointsToWin from "./PointsToWin";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,15 +14,13 @@ class App extends React.Component {
     // this.upDateCurrentScore = this.upDateCurrentScore.bind(this);
 
     this.state = {
-      dice1: null,
-      dice2: null,
       playerOneCurrentScore: 0,
       playerOneTotalScore: 0,
       playerTowCurrentScore: 0,
       playerTowTotalScore: 0,
       limitPointsTowin: 0,
       winner: false,
-      playersTurn: null,
+      playersTurn: 1,
     };
   }
 
@@ -34,12 +32,21 @@ class App extends React.Component {
     this.setState({ dice2: diceNumTow });
   }
 
-  // upDateCurrentScore() {
-  //   // let CurrentReault = this.state.dice1 + this.state.dice2;
-  //   console.log("hi");
-  //   this.setState({ playerOneCurrentScore: 777 });
-  //   // this.state.dice1 + this.state.dice2
-  // }
+  updateCurrentScore = (newCurrentScore) => {
+    console.log(newCurrentScore);
+    console.log("inside update current score");
+    if (this.state.playersTurn === 1) {
+      console.log("player 1");
+      this.setState((state) => ({
+        playerOneCurrentScore: state.playerOneCurrentScore + newCurrentScore,
+      }));
+    }
+    if (this.state.playersTurn === 2) {
+      this.setState((state) => ({
+        playerTowCurrentScore: state.playerTowCurrentScore + newCurrentScore,
+      }));
+    }
+  };
 
   render() {
     const diceNumOne = this.state.dice1;
@@ -62,6 +69,7 @@ class App extends React.Component {
           <h2>Gaming Options </h2>
           <NewGame />
           <RollDice
+            updateCurrentScore={(newCurrentScore) => this.updateCurrentScore(newCurrentScore)}
             onDiceChange1={this.onDiceChange}
             onDiceChange2={this.onDice2Change}
             diceNumOne={this.state.dice1}
